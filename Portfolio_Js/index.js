@@ -38,3 +38,5 @@ const scrollToWork = ()=>{
 const scrollToContact = ()=>{
     contact.scrollIntoView({behavior:'smooth'})
 }
+
+
