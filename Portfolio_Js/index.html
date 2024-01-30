@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            poppins: "Poppins",
+          },
+        },
+      };
+    </script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      @font-face {
+        font-family: myfont;
+        src: url(italicFont.ttf);
+      }
+
+      .navbar {
+        border-bottom: 0.1rem solid #94a3b8;
+      }
+
+      .Home-nav.active,
+.Skills-nav.active,
+.Work-nav.active,
+.Contact-nav.active {
+        background-color: #dbeafe;
+        color: black;
+        border-radius: 5rem;
+        transform: translateY(-5px);
+      }
+      
+
+      .tag {
+        font-family: myfont;
+      }
+
+        
+    </style>
+  </head>
+  <body >
+    <div data-container class="relative">
+      <!-- NavBar -->
+      <div
+        class="fixed top-0 left-0 right-0 py-5 transition-all duration-200 ease-in-out"
+        data-navbar
+      >
+        <nav class="">
+          <ul
+            class="flex gap-x-[5%] text-slate-300 text-xl items-center justify-end mr-[10%] "
+          >
+            <li>
+              <button 
+                onclick="scrollToHome()"
+                class="px-[0.5rem] py-[0.25rem] transition-all duration-800 ease-in-out  Home-nav active"
+              >
+                Home
+              </button>
+            </li>
+            <li>
+              <button
+              onclick="scrollToSkills()"
+                class="px-[0.5rem] py-[0.25rem] transition-all duration-200 ease-in-out Skills-nav"
+              >
+                Skills
+              </button>
+            </li>
+            <li>
+              <button
+              onclick="scrollToWork()"
+                class="px-[0.5rem] py-[0.25rem] transition-all duration-200 ease-in-out Work-nav"
+              >
+                Work
+              </button>
+            </li>
+            <li>
+              <button
+              onclick="scrollToContact()"
+                class="px-[0.5rem] py-[0.25rem] transition-all duration-200 ease-in-out Contact-nav"
+              >
+                Contact
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Hero Section -->
+      <div 
+      class="bg-slate-800 h-screen border-b-2 border-slate-500  px-14"
+      data-hero>
+        
+          <pre>
+                <span class="text-xl text-slate-500 ">&lt;<span class="tag text-5xl"> html </span>&gt;</span>
+                <span class="text-xl text-slate-500 ">    &lt;<span class="tag text-5xl"> body </span>&gt;</span>
+                <br/>
+                <br/>
+                <span class="text-xl text-slate-500 ">        &lt;<span class="tag text-5xl"> div </span>&gt;</span>
+                <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> h1 </span>&gt;</span>
+                <h1 class="text-5xl text-white font-extrabold font-poppins"
+>                                        Hi,            
+                                        I'm Yash Rajput,
+                                        an Engineering Student</h1>
+                <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> /h1 </span>&gt;</span>
+                <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> button </span>&gt;</span>
+
+                                <button onclick="scrollToContact()" class=" hover:text-slate-800 text-lime-300 py-4 px-4 border border-lime-300 text-lg  transition-all duration-1000 ease-in-out relative overflow-hidden group z-10 ">Contact Me<div class=" transition-all duration-1000 ease-in-out absolute h-full w-full bg-lime-300 top-0 left-0  -translate-x-full group-hover:translate-x-0 -z-10   "></div></button>
+                                
+                <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> button </span>&gt;</span>
+                <span class="text-xl text-slate-500 ">        &lt;<span class="tag text-5xl"> /div </span>&gt;</span>
+                <br/>
+                <span class="text-xl text-slate-500 ">    &lt;<span class="tag text-5xl"> /body </span>&gt;</span>
+                <span class="text-xl text-slate-500 ">&lt;<span class="tag text-5xl"> /html </span>&gt;</span>
+            </pre>
+        
+      </div>
+
+
+      <!-- Skills -->
+      <div
+      class="bg-slate-800 border-b-2 border-slate-500  px-14 h-screen"
+      data-skills>
+
+      </div>
+      <div
+      class="bg-slate-800 border-b-2 border-slate-500  px-14 h-screen"
+
+      data-work>
+
+      </div>
+      <div
+      class="bg-slate-800  px-14 h-screen"
+
+      data-contact>
+
+      </div>
+
+
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
