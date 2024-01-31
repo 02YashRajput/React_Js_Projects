@@ -64,7 +64,7 @@
           >
             <li>
               <button
-                onclick="scrollToHome()"
+                onclick="scrol('#home')"
                 class="px-[0.5rem] py-[0.25rem] transition-all duration-800 ease-in-out Home-nav active"
               >
                 Home
@@ -72,7 +72,7 @@
             </li>
             <li>
               <button
-                onclick="scrollToSkills()"
+                onclick="scrol('#skills')"
                 class="px-[0.5rem] py-[0.25rem] transition-all duration-200 ease-in-out Skills-nav"
               >
                 Skills
@@ -80,7 +80,7 @@
             </li>
             <li>
               <button
-                onclick="scrollToWork()"
+                onclick="scrol('#work')"
                 class="px-[0.5rem] py-[0.25rem] transition-all duration-200 ease-in-out Work-nav"
               >
                 Work
@@ -88,7 +88,7 @@
             </li>
             <li>
               <button
-                onclick="scrollToContact()"
+                onclick="scrol('#contact')"
                 class="px-[0.5rem] py-[0.25rem] transition-all duration-200 ease-in-out Contact-nav"
               >
                 Contact
@@ -99,7 +99,9 @@
       </div>
 
       <!-- Hero Section -->
-      <div class="bg-slate-800 border-b-2 border-slate-500 px-14" data-hero>
+      <div class="bg-slate-800 border-b-2 border-slate-500 px-14" 
+      id="home" 
+      data-hero>
         <pre>
                 <span class="text-xl text-slate-500 ">&lt;<span class="tag text-5xl"> html </span>&gt;</span>
                 <span class="text-xl text-slate-500 ">    &lt;<span class="tag text-5xl"> body </span>&gt;</span>
@@ -114,7 +116,7 @@
                 <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> /h1 </span>&gt;</span>
                 <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> button </span>&gt;</span>
 
-                                <button onclick="scrollToContact()" class=" hover:text-slate-800 text-lime-300 py-4 px-4 border border-lime-300 text-lg  transition-all duration-1000 ease-in-out relative overflow-hidden group z-10 ">Contact Me<div class=" transition-all duration-1000 ease-in-out absolute h-full w-full bg-lime-300 top-0 left-0  -translate-x-full group-hover:translate-x-0 -z-10   "></div></button>
+                                <button onclick="scrol('#contact')" class=" hover:text-slate-800 text-lime-300 py-4 px-4 border border-lime-300 text-lg  transition-all duration-1000 ease-in-out relative overflow-hidden group z-10 ">Contact Me<div class=" transition-all duration-1000 ease-in-out absolute h-full w-full bg-lime-300 top-0 left-0  -translate-x-full group-hover:translate-x-0 -z-10   "></div></button>
                                 
                 <span class="text-xl text-slate-500 ">            &lt;<span class="tag text-5xl"> button </span>&gt;</span>
                 <span class="text-xl text-slate-500 ">        &lt;<span class="tag text-5xl"> /div </span>&gt;</span>
@@ -129,6 +131,7 @@
       <div
         class="bg-slate-800 border-b-2 border-slate-500 flex flex-row gap-x-20 px-14 h-screen py-4"
         data-skills
+        id="skills"
       >
         <img src="image-01.jpg" class="h-full w-1/2" loading="lazy" />
         <div class="w-1/2 flex justify-center flex-col">
@@ -160,6 +163,7 @@
       <div
         class="bg-slate-800 border-b-2 h-screen border-slate-500 flex flex-col items-center px-14"
         data-work
+        id="work"
       >
         <h2
           class="bg-purple-600 w-28 bg-opacity-50 text-3xl text-center rounded-[8rem] py-2 px-2 mb-8 text-white mt-20"
@@ -174,6 +178,7 @@
       <div
         class="bg-slate-800 flex flex-row items-center justify-evenly px-14 h-screen"
         data-contact
+        id="contact"
       >
         <div>
           <h2
@@ -224,30 +229,57 @@
           </form>
 
           <div class="flex gap-x-5 mt-5 items-center " >
-            <div class="text-4xl text-black  flex cursor-pointer hover:text-slate-500  group duration-400  items-center email-button">
+
+            <div  
+            onclick="toogleDiv('#email-div')" 
+            data-target="#email-div"
+            class="text-4xl text-black  flex cursor-pointer hover:text-slate-500  group duration-400  items-center toggle-button"
+            >
                 <i class="fa-solid fa-envelope"></i>
-                <div class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden email-div  ">
+                <div 
+                id="email-div"
+                class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
                   <span class="group-hover:text-slate-800" >
                     02yashrajput@gmail.com
                   </span>
                 </div>
             </div>
-            <div class="text-4xl text-black flex cursor-pointer hover:text-slate-500 transition-all duration-400 group items-center">
+
+            <div 
+            onclick="toogleDiv('#github-div')" 
+            class="text-4xl text-black flex cursor-pointer hover:text-slate-500 transition-all duration-400 group items-center toggle-button"
+            data-target="#github-div"
+            >
               <i class="fa-brands fa-github"></i>
-              <div class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden ">
+              <div  
+              id="github-div"
+              class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
                <a href="https://www.github.com/02YashRajput" target="_blank" class="group-hover:text-slate-800">02YashRajput</a> 
               </div>
             </div>
-            <div class="text-4xl text-black flex  cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center ">
+
+            <div 
+            data-target="#instagram-div"
+            onclick="toogleDiv('#instagram-div')" 
+            class="text-4xl text-black flex  cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center toggle-button"
+            >
               <i class="fa-brands fa-square-instagram"></i>
-              <div class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden ">
+              <div 
+              id="instagram-div"
+              class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
                 <a href="https://www.instagram.com/iam_y.r/" target="_blank" class="group-hover:text-slate-800">iam_y.r</a> 
               </div>
             </div>
             
-            <div class="text-4xl text-black flex  cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center ">
+            <div
+            data-target="#linkedin-div" 
+            onclick="toogleDiv('#linkedin-div')" 
+            class="text-4xl text-black flex  cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center toggle-button "
+            >
               <i class="fa-brands fa-linkedin"></i>
-              <div class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2  ">
+              <div 
+              id="linkedin-div"
+              class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
                 <a href="https://www.linkedin.com/in/yash-rajput-54b763282/" target="_blank" class="group-hover:text-slate-800">Yash Rajput</a> 
               </div>
             </div>

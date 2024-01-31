@@ -7,6 +7,7 @@ const homeNav = document.querySelector('.Home-nav')
 const skillsNav = document.querySelector('.Skills-nav')
 const workNav = document.querySelector('.Work-nav')
 const contactNav = document.querySelector('.Contact-nav')
+const arr = document.querySelectorAll('.toggle-div')
 window.addEventListener('scroll',()=>{
     const scrollPosition = window.scrollY;
     if (scrollPosition < skills.offsetTop) {
@@ -26,17 +27,30 @@ window.addEventListener('scroll',()=>{
     }
 })
 
-const scrollToHome = ()=>{
-    hero.scrollIntoView({behavior:'smooth'})
-}
-const scrollToSkills = ()=>{
-    skills.scrollIntoView({behavior:'smooth'})
-}
-const scrollToWork = ()=>{
-    work.scrollIntoView({behavior:'smooth'})
-}
-const scrollToContact = ()=>{
-    contact.scrollIntoView({behavior:'smooth'})
+function scrol(divid){
+    let myDiv = document.querySelector(divid);
+    myDiv.scrollIntoView({behavior:'smooth'});
+} 
+
+function toogleDiv(divclass){
+    let myDiv = document.querySelector(divclass);
+    myDiv.style.display = (myDiv.style.display === 'none' || myDiv.style.display === '') ? 'flex' : 'none';
 }
 
-
+document.addEventListener('click',(event)=>{
+    let clickedButton = event.target.closest('.toggle-button');
+    if(!clickedButton){
+        arr.forEach((myDiv)=>{
+            myDiv.style.display = 'none';
+        })
+    }
+    else{
+        let divclass = clickedButton.getAttribute('data-target');
+        let targetDiv = document.querySelector(divclass);
+        arr.forEach((myDiv)=>{
+            if(!(myDiv.id === targetDiv.id) ){
+                myDiv.style.display = 'none';
+            }
+        })
+    }
+} )
