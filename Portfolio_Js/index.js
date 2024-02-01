@@ -54,3 +54,7 @@ document.addEventListener('click',(event)=>{
         })
     }
 } )
+function submitHandler(event){
+    Event.stop(event); 
+
+}

@@ -26,16 +26,10 @@
         margin: 0;
         padding: 0;
       }
-
       @font-face {
         font-family: myfont;
         src: url(italicFont.ttf);
       }
-
-      .navbar {
-        border-bottom: 0.1rem solid #94a3b8;
-      }
-
       .Home-nav.active,
       .Skills-nav.active,
       .Work-nav.active,
@@ -45,10 +39,26 @@
         border-radius: 5rem;
         transform: translateY(-5px);
       }
-
       .tag {
         font-family: myfont;
       }
+      .project-container{
+        scrollbar-width: none;
+      }
+      .project-container::-webkit-scrollbar{
+        display: none;
+      }
+      .project.in-view{
+        animation: slideAnimation 30s ease-in-out infinite alternate;
+      }
+      @keyframes slideAnimation {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
     </style>
   </head>
   <body>
@@ -99,9 +109,11 @@
       </div>
 
       <!-- Hero Section -->
-      <div class="bg-slate-800 border-b-2 border-slate-500 px-14" 
-      id="home" 
-      data-hero>
+      <div
+        class="bg-slate-800 border-b-2 border-slate-500 px-14"
+        id="home"
+        data-hero
+      >
         <pre>
                 <span class="text-xl text-slate-500 ">&lt;<span class="tag text-5xl"> html </span>&gt;</span>
                 <span class="text-xl text-slate-500 ">    &lt;<span class="tag text-5xl"> body </span>&gt;</span>
@@ -152,7 +164,9 @@
             >
             <span class="mr-4 text-xl font-extrabold text-slate-400">HTML</span>
             <span class="mr-4 text-xl font-extrabold text-slate-400">CSS</span>
-            <span class="mr-4 text-xl font-extrabold text-slate-400">Tailwind</span>
+            <span class="mr-4 text-xl font-extrabold text-slate-400"
+              >Tailwind</span
+            >
             <span class="mr-4 text-xl font-extrabold text-slate-400">JS</span>
             <span class="text-xl font-extrabold text-slate-400">React</span>
           </p>
@@ -170,10 +184,39 @@
         >
           Work
         </h2>
+
+        <div class="mt-4 relative">
+          <h1 class="text-6xl text-white font-extrabold">
+            Dig into my universe
+          </h1>
+          <div
+            class="absolute -bottom-6 h-0.5 w-10/12 bg-slate-500 left-1/2 -translate-x-1/2"
+          ></div>
+        </div>
+       <div class="h-[600px] relative w-full mt-20 flex items-end  justify-center overflow-auto project-container">
+        <div class="absolute left-1/2 h-[95%] top-4 flex gap-x-5 p-5 project  ">
+
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+          <div class="h-full w-[400px] border-2 border-slate-500 rounded-xl " ></div>
+        </div>
+
+
+        <!-- <div class="w-3/5 h-3 flex items-center ">
+          <div class="h-0.5 flex relative  w-full bg-slate-600">
+            <div class="absolute h-full top-0 left-0 w-1/5 bg-slate-300 cursor-grab z-10"></div>
+          </div>
+        </div> -->
+       </div>
+        </div>
       </div>
-
-
-
       <!-- Contact -->
       <div
         class="bg-slate-800 flex flex-row items-center justify-evenly px-14 h-screen"
@@ -195,7 +238,7 @@
           </p>
         </div>
         <div>
-          <form class="flex flex-col text-lg text-slate-500">
+          <form  onsubmit="submitHandler()" class="flex flex-col text-lg text-slate-500">
             <label for="name" class="text-xl mb-2">Name</label>
             <input
               type="text"
@@ -219,6 +262,7 @@
             />
 
             <button
+              onclick="submitHandler()"
               class="border border-slate-500 text-slate-800 mt-5 bg-slate-800 py-2 w-40 rounded-sm text-xl hover:text-slate-500 transition-all duration-1000 relative group overflow-hidden z-10"
             >
               Hit me Up <i class="fa-solid fa-rocket"></i>
@@ -228,62 +272,79 @@
             </button>
           </form>
 
-          <div class="flex gap-x-5 mt-5 items-center " >
-
-            <div  
-            onclick="toogleDiv('#email-div')" 
-            data-target="#email-div"
-            class="text-4xl text-black  flex cursor-pointer hover:text-slate-500  group duration-400  items-center toggle-button"
+          <div class="flex gap-x-5 mt-5 items-center">
+            <div
+              onclick="toogleDiv('#email-div')"
+              data-target="#email-div"
+              class="text-4xl text-black flex cursor-pointer hover:text-slate-500 group duration-400 items-center toggle-button"
             >
-                <i class="fa-solid fa-envelope"></i>
-                <div 
+              <i class="fa-solid fa-envelope"></i>
+              <div
                 id="email-div"
-                class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
-                  <span class="group-hover:text-slate-800" >
-                    02yashrajput@gmail.com
-                  </span>
-                </div>
+                class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div"
+              >
+                <span class="group-hover:text-slate-800">
+                  02yashrajput@gmail.com
+                </span>
+              </div>
             </div>
 
-            <div 
-            onclick="toogleDiv('#github-div')" 
-            class="text-4xl text-black flex cursor-pointer hover:text-slate-500 transition-all duration-400 group items-center toggle-button"
-            data-target="#github-div"
+            <div
+              onclick="toogleDiv('#github-div')"
+              class="text-4xl text-black flex cursor-pointer hover:text-slate-500 transition-all duration-400 group items-center toggle-button"
+              data-target="#github-div"
             >
               <i class="fa-brands fa-github"></i>
-              <div  
-              id="github-div"
-              class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
-               <a href="https://www.github.com/02YashRajput" target="_blank" class="group-hover:text-slate-800">02YashRajput</a> 
+              <div
+                id="github-div"
+                class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div"
+              >
+                <a
+                  href="https://www.github.com/02YashRajput"
+                  target="_blank"
+                  class="group-hover:text-slate-800"
+                  >02YashRajput</a
+                >
               </div>
             </div>
 
-            <div 
-            data-target="#instagram-div"
-            onclick="toogleDiv('#instagram-div')" 
-            class="text-4xl text-black flex  cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center toggle-button"
+            <div
+              data-target="#instagram-div"
+              onclick="toogleDiv('#instagram-div')"
+              class="text-4xl text-black flex cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center toggle-button"
             >
               <i class="fa-brands fa-square-instagram"></i>
-              <div 
-              id="instagram-div"
-              class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
-                <a href="https://www.instagram.com/iam_y.r/" target="_blank" class="group-hover:text-slate-800">iam_y.r</a> 
-              </div>
-            </div>
-            
-            <div
-            data-target="#linkedin-div" 
-            onclick="toogleDiv('#linkedin-div')" 
-            class="text-4xl text-black flex  cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center toggle-button "
-            >
-              <i class="fa-brands fa-linkedin"></i>
-              <div 
-              id="linkedin-div"
-              class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div ">
-                <a href="https://www.linkedin.com/in/yash-rajput-54b763282/" target="_blank" class="group-hover:text-slate-800">Yash Rajput</a> 
+              <div
+                id="instagram-div"
+                class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div"
+              >
+                <a
+                  href="https://www.instagram.com/iam_y.r/"
+                  target="_blank"
+                  class="group-hover:text-slate-800"
+                  >iam_y.r</a
+                >
               </div>
             </div>
 
+            <div
+              data-target="#linkedin-div"
+              onclick="toogleDiv('#linkedin-div')"
+              class="text-4xl text-black flex cursor-pointer hover:text-slate-500 group transition-all duration-400 items-center toggle-button"
+            >
+              <i class="fa-brands fa-linkedin"></i>
+              <div
+                id="linkedin-div"
+                class="text-xl bg-slate-500 h-7 px-2 rounded-md ml-2 hidden toggle-div"
+              >
+                <a
+                  href="https://www.linkedin.com/in/yash-rajput-54b763282/"
+                  target="_blank"
+                  class="group-hover:text-slate-800"
+                  >Yash Rajput</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>
