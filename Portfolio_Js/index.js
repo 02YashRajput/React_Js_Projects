@@ -8,6 +8,9 @@ const skillsNav = document.querySelector('.Skills-nav')
 const workNav = document.querySelector('.Work-nav')
 const contactNav = document.querySelector('.Contact-nav')
 const arr = document.querySelectorAll('.toggle-div')
+const targetDiv = document.querySelector(".project");
+
+
 window.addEventListener('scroll',()=>{
     const scrollPosition = window.scrollY;
     if (scrollPosition < skills.offsetTop) {
@@ -56,5 +59,24 @@ document.addEventListener('click',(event)=>{
 } )
 function submitHandler(event){
     Event.stop(event); 
-
 }
+
+const handleIntersection = (entries, observer) => {
+    entries.forEach(entry => {
+      const targetDiv = entry.target;
+
+      if (entry.isIntersecting) {
+        targetDiv.classList.add('visible');
+      } else {
+        targetDiv.classList.remove('visible');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(handleIntersection);
+  observer.observe(targetDiv);
+
+
+function goleft(){
+} 
+
