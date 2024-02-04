@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Weather Website</title>
+  </head>
+  <body>
+    <!-- main container -->
+    <div
+      class="min-h-screen bg-gradient-to-tl from-blue-400 to-blue-600 flex flex-col items-center gap-y-16 p-10"
+    >
+      <!-- heading -->
+      <h1 class="font-extrabold text-white text-5xl">Weather App</h1>
+      <!-- Choosing Button -->
+      <div class="flex w-[30%] justify-between text-white">
+        <button
+          data-userWeather
+          onclick="switchTab('.user-weather-button','.search-weather-button')"
+          class="p-2 rounded-sm user-weather-button transition-all duration-200 bg-slate-400"
+        >
+          Your Weather
+        </button>
+        <button
+          data-searchWeather
+          onclick="switchTab('.search-weather-button','.user-weather-button')"
+          class="p-2 rounded-sm search-weather-button transition-all duration-200"
+        >
+          Search
+        </button>
+      </div>
+
+      <!-- Main Section -->
+      <div class="flex-col flex items-center">
+        <!-- grant location -->
+        <div data-grantLocationContainer class="flex flex-col items-center">
+          <img class="h-20 w-20" src="assets/location.png" />
+          <h2 class="text-3xl font-bold text-white mt-6">
+            Grant Location Access
+          </h2>
+          <p class="text-slate-300">Allow acces to your Location</p>
+          <button
+            onclick="getUserLocation()"
+            class="p-2 rounded-sm transition-all duration-200 bg-slate-400 bg-opacity-70 mt-6 text-white hover:text-lg transition-all duration-200"
+          >
+            Grant Access
+          </button>
+        </div>
+
+        <!-- search bar -->
+        <form data-searchBar class="hidden flex gap-x-4 items-center mb-10">
+          <input
+            type="text"
+            id="search"
+            class="w-[450px] text-2xl rounded-xl h-12 bg-[rgba(255,255,255,0.1)] backdrop-blur-2xl text-white outline-none px-2 placeholder:text-white placeholder:opacity-70"
+            placeholder="Search for City..."
+          />
+          <button
+            class="text-white bg-[rgba(255,255,255,0.1)] backdrop-blur-2xl h-12 w-12 rounded-full"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+
+        <!-- loading -->
+        <div data-loading class="flex-col items-center hidden">
+          <img class="h-60" src="assets/loading.gif" />
+          <p class="text-white text-2xl">Loading...</p>
+        </div>
+
+        <!-- Main data -->
+        <div
+          data-mainContainer
+          class="flex flex-col items-center gap-y-5 hidden"
+        >
+          <div class="flex items-center gap-x-4">
+            <h1 data-cityName class="text-white text-4xl"></h1>
+            <img class="h-8" src="" data-country />
+          </div>
+          <div class="text-2xl text-white flex flex-col items-center">
+            <p data-mainWeather></p>
+            <img class="h-32" data-mainWeatherImage src="" />
+            <p data-temp class="text-5xl font-bold text-white"></p>
+          </div>
+          <div class="flex flex-row gap-x-4">
+            <div
+              class="h-36 bg-opacity-70 bg-slate-400 w-40 rounded-sm flex flex-col items-center justify-around text-white text-2xl"
+            >
+            <p>Humidity</p>
+              <img
+                data-humidityImage
+                class="h-16 w-16"
+                src="assets/humidity.png"
+              />
+              <p   class="text-xl" data-humidity></p>
+            </div>
+            <div
+              class="h-36 bg-opacity-70 bg-slate-400 w-40 rounded-sm flex flex-col items-center justify-around text-white text-2xl"
+            >
+            <p>Wind</p>
+              <img
+                data-windSpeedImage
+                class="h-16 w-16"
+                src="assets/wind.png"
+              />
+              <p  class="text-xl" data-windSpeed></p>
+            </div>
+            <div
+              class="h-36 bg-opacity-70 bg-slate-400 w-40 rounded-sm flex flex-col items-center justify-around text-white text-2xl"
+            >
+            <p>Wind</p>
+              <img data-cloudsImage class="h-16 w-16" src="assets/cloud.png" />
+              <p class="text-xl" data-clouds></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://kit.fontawesome.com/a9b964dae9.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
