@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Clock</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <div
+      class="min-h-screen bg-white flex flex-col items-center justify-evenly"
+    >
+    <div class="clock w-64 h-64 border-4 border-slate-500 rounded-full relative rotate-90">
+        <div data-hourHand class=" absolute w-1/2 h-px bg-gray-900 top-1/2 transform origin-right  "></div>
+        <div data-minuteHand class=" absolute w-1/2 h-px bg-gray-600 top-1/2 transform origin-right "></div>
+        <div data-secondHand class="absolute w-1/2 h-px bg-red-600 top-1/2 transform origin-right "></div>
+        <div class="center absolute w-2 h-2 bg-slate-500 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+      
+      <div
+        class="w-96 h-36 border-4 rounded-lg border-slate-500 flex font-bold text-slate-500 text-5xl justify-evenly items-center"
+      >
+        <p data-hour></p>
+        <p>:</p>
+        <p data-minute></p>
+        <p>:</p>
+        <p data-second></p>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
 </html>
