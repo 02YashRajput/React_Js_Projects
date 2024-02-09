@@ -39,7 +39,7 @@ export default function AppContextProvider({ children }) {
 
     async function fetchData(name=""){
       if(name !== ""){
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${name}`
+        const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${name}`
         const res = await fetch(url);
         const data = await res.json();
         console.log(data)

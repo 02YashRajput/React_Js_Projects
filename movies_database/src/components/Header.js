@@ -28,7 +28,7 @@ const Header = () => {
         <label className="border border-slate-500  h-10 grow flex min-w-0 ">
           <input
             onChange={(event) => {
-              setName(event.target.value);
+              setName(event.target.value.split(" ").join("-"));
             }}
             type="search"
             className="min-w-0 grow outline-none text-lg px-2 bg-transparent text-slate-500"
