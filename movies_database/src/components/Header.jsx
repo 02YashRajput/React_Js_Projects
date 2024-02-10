@@ -1,20 +1,56 @@
-import React, { useContext } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const Header = () => {
-  const { theme, handleThemeChange, fetchData, setName, name } =
-    useContext(AppContext);
-
+  const {
+    theme,
+    handleThemeChange,
+    fetchData,
+    setName,
+    name,
+    apiKey,
+    setLoading,
+  } = useContext(AppContext);
+  // eslint-disable-next-line
+  const [pageData, setPageData] = useState([]);
+  const [scrolled, setScrolled] = useState(false);
+  async function fetching() {
+    setLoading(true);
+    const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${name}`;
+    await fetchData(url, setPageData);
+    setLoading(false);
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchData(name);
+    fetching();
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.pageYOffset;
+      if (offset > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div
-      className={`bg-white dark:bg-slate-900 flex justify-around h-20 px-4 items-center border-b border-slate-500 fixed top-0 left-0 right-0 gap-5 shadow-md shadow-slate-500`}
+      className={`bg-white dark:bg-slate-900 flex justify-around h-20 px-4 items-center border-b border-slate-500 fixed top-0 left-0 right-0 gap-5 z-50 transition-all duration-200 
+        ${
+          scrolled ? "shadow-md shadow-slate-500 ":""
+        }
+      `}
     >
       {/* Left Section */}
       <div className="text-slate-500 dark:text-slate-500">
