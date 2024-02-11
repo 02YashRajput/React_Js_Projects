@@ -47,3 +47,8 @@ code {
      transform: rotate(1turn);
   }
 }
+
+
+.hidingscrollbar::-webkit-scrollbar{
+  width: 0;
+}
