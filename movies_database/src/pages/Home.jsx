@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect} from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { AppContext } from "../context/AppContext";
@@ -6,18 +6,9 @@ import Loading from "../components/Loading";
 import Container from "../components/Container";
 
 const Home = () => {
-  const { arr, fetchData, apiKey,loading,setLoading } = useContext(AppContext);
+  const { arr, fetchData, apiKey,loading,setLoading,pageData,setPageData } = useContext(AppContext);
 
-  const [pageData, setPageData] = useState({
-    movie_trending: [],
-    movie_now_playing: [],
-    movie_top_rated: [],
-    movie_upcoming: [],
-    tv_trending: [],
-    tv_top_rated: [],
-    tv_on_the_air: [],
-    tv_airing_today: [],
-  });
+
 
   async function fetching(){
     
@@ -39,12 +30,13 @@ const Home = () => {
   }
 
   useEffect(() => {
+
     fetching();
-    // eslint-disable-next-line
+     // eslint-disable-next-line 
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900  pt-28 gap-5 pb-72 px-4 relative flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-white dark:bg-slate-900  pt-28 gap-5  px-4 relative ">
       <Header />
 
       {!loading ? (
