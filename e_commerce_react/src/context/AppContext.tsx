@@ -24,9 +24,16 @@ type AppContextType = {
   showPopUp: boolean;
   setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   categoryArr: { name: string; Image: string }[];
+  wishlist: number[];
+  setWishList: React.Dispatch<React.SetStateAction<number[]>>;
+  cartlist: number[];
+  setCartList: React.Dispatch<React.SetStateAction<number[]>>;
+  checkoutList: number[];
+  setCheckoutList: React.Dispatch<React.SetStateAction<number[]>>
   filterByCategory: (category: string) => pageDatatype[];
   toggleWishList: (id: number) => void,
-  toggleCartList: (id: number) => void
+  toggleCartList: (id: number) => void,
+  
 };
 type pageDatatype = {
   id: number;
@@ -71,6 +78,7 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [showPopUp, setShowPopUp] = useState(true);
   const [wishlist, setWishList] = useState<number[]>([]);
   const [cartlist, setCartList] = useState<number[]>([]);
+  const [checkoutList,setCheckoutList] = useState<number[]>([]);
 
   const notifyWarn = () =>
     toast.warn("Enter Email and Password!", {
@@ -169,7 +177,9 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
     cartlist,
     setCartList,
     toggleWishList,
-    toggleCartList
+    toggleCartList,
+    checkoutList,
+    setCheckoutList
   };
   return <AppContext.Provider value={value}>{children} </AppContext.Provider>;
 };

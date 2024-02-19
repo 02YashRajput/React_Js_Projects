@@ -54,7 +54,7 @@ function Header() {
       </div>
 
       {/*Middle Section  */}
-      <div className="grow max-w-72">
+      <div className="grow max-w-40">
         <ul className="flex justify-between ">
           <li>
             <NavLink to="/">Home</NavLink>
@@ -62,9 +62,7 @@ function Header() {
           <li>
             <NavLink to="/about">About</NavLink>
           </li>
-          <li>
-            <NavLink to="/contact-us">Contact Us</NavLink>
-          </li>
+         
          
         </ul>
       </div>
