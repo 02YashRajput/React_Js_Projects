@@ -1,11 +1,11 @@
-import express, { request, response } from "express";
-import allRoutes from "./routes/route.mjs"
-import session from "express-session"; 
+import express from "express";
+import allRoutes from "./routes/route.mjs";
+import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
-import "./strategies/local-strategy_login.mjs"
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
+import cors from "cors"; // Import the cors package
 
 const app = express();
 
@@ -18,30 +18,34 @@ mongoose
     console.log(err);
   });
 
+// Use cors middleware before defining other middleware or routes
+app.use(
+  cors({
+    origin: "localhost:3000", // Replace with your frontend URL
+    credentials: true, // Allow credentials (cookies) to be sent cross-origin
+  })
+);
 
-
-
-app.use(express.json())
-app.use(cookieParser("helloworld")); 
+app.use(express.json());
+app.use(cookieParser("helloworld"));
 app.use(
   session({
     secret: "yash the dev",
     saveUninitialized: false,
     resave: false,
     cookie: {
-      maxAge: 60000 * 60*24*30,
+      maxAge: 60000 * 60 * 24 * 30,
     },
-    store:MongoStore.create({
-      client:mongoose.connection.getClient(),
-    })
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+    }),
   })
 );
 app.use(passport.initialize());
-app.use(passport.session()); 
-
+app.use(passport.session());
 
 app.use(allRoutes);
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
-

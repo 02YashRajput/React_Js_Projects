@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
   const [formData, setFormData] = useState({
@@ -50,18 +51,24 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
   };
   return (
     <form
-      className="p-4 flex flex-col text-slate-700 gap-5"
+      className="p-4 flex flex-col text-slate-700 gap-5 dark:text-slate-300"
       onSubmit={(e) => {
         e.preventDefault();
-        handleSubmit();
-        onNext();
+        if(formData.gender === ""){
+          toast.error("Please select a gender");
+        }
+        else{
+
+          handleSubmit();
+          onNext();
+        }
       }}
     >
       <h2 className="self-center text-4xl ">Step 1: Personal Details:</h2>
       <label className="text-xl cursor-pointer  ">
         First Name:
         <input
-          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer mt-3  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="text"
           name="firstname"
           value={formData.firstname}
@@ -73,7 +80,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="text-xl cursor-pointer  ">
         Last Name:
         <input
-          className="cursor-pointer   border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer mt-3   border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="text"
           name="lastname"
           value={formData.lastname}
@@ -86,7 +93,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="cursor-pointer  ">
         Date of Birth:
         <input
-          className="border cursor-pointer   ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer mt-3   border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="date"
           name="dateOfBirth"
           value={formData.dateOfBirth}
@@ -98,7 +105,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <div>
         Gender:
         <input
-          className="ml-4 mr-1 cursor-pointer  "
+          className="ml-4 mr-1 mt-3  cursor-pointer bg-transparent dark:border-slate-400 "
           type="radio"
           id="male"
           value="male"
@@ -109,7 +116,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
           Male
         </label>
         <input
-          className="ml-4 mr-1 cursor-pointer  "
+          className="ml-4 mr-1  mt-3 cursor-pointer  bg-transparent dark:border-slate-400"
           type="radio"
           id="female"
           value="female"
@@ -124,7 +131,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="cursor-pointer">
         Email:
         <input
-          className="border cursor-pointer   ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="border cursor-pointer mt-3   ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="email"
           name="email"
           value={formData.email}
@@ -136,7 +143,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="cursor-pointer">
         Phone:
         <input
-          className="border cursor-pointer   ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="border cursor-pointer mt-3    ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="tel"
           name="phone"
           value={formData.phone}
@@ -148,7 +155,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="cursor-pointer text-xl">
         Current Location:
         <input
-          className="border cursor-pointer   ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="border cursor-pointer mt-3   ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="text"
           name="currentLocation"
           value={formData.currentLocation}
@@ -160,7 +167,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="cursor-pointer text-xl">
         Preferred Job Locations:
         <input
-          className="border cursor-pointer   ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="border cursor-pointer mt-3   ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="text"
           name="preferredJobLocations"
           value={formData.preferredJobLocations}
@@ -171,7 +178,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
       <label className="cursor-pointer text-xl">
         Professional Headline:
         <input
-          className="border cursor-pointer   ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="border cursor-pointer mt-3   ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400"
           type="text"
           name="professionalHeadline"
           value={formData.professionalHeadline}
@@ -181,7 +188,7 @@ const J1 = ({ onNext, onPrev, userDetails, setUserDetails }) => {
         />
       </label>
       <button
-        className="self-end bg-yellow-300 px-3 py-2 text-xl"
+        className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800"
         type="submit"
       >
         Next-&gt;

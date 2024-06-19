@@ -1,144 +1,80 @@
-import mongoose, { Schema } from "mongoose";
-
-// Define UserDetails schema
+import mongoose from "mongoose"; 
+import { Schema } from "mongoose";
+// Define the schema for job seeker user details
 const jobSeekerUserDetailsSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  personalInformation: {
-    fullName: {
-      type: Schema.Types.String,
-      required: true
-    },
-    dateOfBirth: {
-      type: Schema.Types.Date
-    },
-    gender: {
-      type: Schema.Types.String,
-      enum: ['Male', 'Female', 'Other']
-    },
-    contactInformation: {
-      email: {
-        type: Schema.Types.String,
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
-        unique: true
-      },
-      phone: {
-        type: Schema.Types.String
-      }
+        unique: true,
     },
-    locationDetails: {
-      currentLocation: {
-        city: {
-          type: Schema.Types.String
+    personalInformation: {
+        fullName: {
+            firstname: String,
+            lastname:String
         },
-        state: {
-          type: Schema.Types.String
+        dateOfBirth: Date,
+        gender: {
+          type: Schema.Types.String,
+          enum: ['male', 'female','Male','Female'],
+          required: true
         },
-        country: {
-          type: Schema.Types.String
+        contactInformation: {
+            email: String,
+            phone: String
+        },
+        locationDetails: {
+            currentLocation: String,
+            preferredJobLocations: [String]
+        },
+        professionalHeadline: String
+    },
+    professionalExperience: {
+        employmentHistory: [
+            {
+                employer: String,
+                jobTitle: String,
+                startDate: Date,
+                endDate: Date,
+                responsibilities:String,
+                achievements:String
+            }
+        ],
+        skills: {
+            technical: [String],
+            soft: [String]
         }
-      },
-      preferredJobLocations: [{
-        type: Schema.Types.String
-      }]
     },
-    professionalHeadline: {
-      type: Schema.Types.String
-    }
-  },
-  professionalExperience: {
-    employmentHistory: [{
-      employer: {
-        type: Schema.Types.String
-      },
-      jobTitle: {
-        type: Schema.Types.String
-      },
-      employmentDuration: {
-        startDate: {
-          type: Schema.Types.Date
-        },
-        endDate: {
-          type: Schema.Types.Date
+    education: {
+        educationalBackground: [
+            {
+              institutionName: String,
+                degree: String,
+                majorFieldOfStudy: String,
+                graduationYear: String,
+                grade: String
+            }
+        ],
+        certificationsAndCourses: {
+            certifications: [String],
+            professionalDevelopmentCourses: [String]
         }
-      },
-      responsibilitiesAndAchievements: {
-        type: Schema.Types.String
-      }
-    }],
-    skills: {
-      technical: [{
-        type: Schema.Types.String
-      }],
-      soft: [{
-        type: Schema.Types.String
-      }]
-    }
-  },
-  education: {
-    educationalBackground: [{
-      degree: {
-        type: Schema.Types.String
-      },
-      institutionName: {
-        type: Schema.Types.String
-      },
-      fieldOfStudy: {
-        type: Schema.Types.String
-      },
-      graduationYear: {
-        type: Schema.Types.Number
-      }
-    }],
-    certificationsAndCourses: [{
-      name: {
-        type: Schema.Types.String
-      },
-      type: {
-        type: Schema.Types.String
-      }
-    }]
-  },
-  jobPreferences: {
-    desiredJobTitles: [{
-      type: Schema.Types.String
-    }],
-    industryPreferences: [{
-      type: Schema.Types.String
-    }],
-    employmentType: {
-      type: Schema.Types.String,
-      enum: ['Full-time', 'Part-time', 'Contract']
     },
-    salaryExpectations: {
-      type: Schema.Types.Number
+    jobPreferences: {
+        desiredJobTitles: [String],
+        industryPreferences: [String],
+        employmentType: String,
+        salaryExpectations: String,
+        workAuthorization: String
     },
-    workAuthorization: {
-      type: Schema.Types.String
+    additionalInformation: {
+        portfolioOrWorkSamples: String,
+        languages: [String],
+        additionalComments: String
     }
-  },
-  additionalInformation: {
-    portfolio: {
-      type: Schema.Types.String
-    },
-    languages: [{
-      language: {
-        type: Schema.Types.String
-      },
-      proficiency: {
-        type: Schema.Types.String
-      }
-    }],
-    additionalComments: {
-      type: Schema.Types.String
-    }
-  }
 });
 
-// Create UserDetails model
-const UserDetails = mongoose.model("UserDetails", jobSeekerUserDetailsSchema);
+// Create and export the model based on the schema
+export const JobSeekerUserDetails = mongoose.model('JobSeekerUserDetails', jobSeekerUserDetailsSchema);
 
-export default UserDetails;
+

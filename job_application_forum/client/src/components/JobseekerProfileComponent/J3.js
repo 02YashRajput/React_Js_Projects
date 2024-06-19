@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-
+import { IoIosClose } from "react-icons/io";
+import { toast } from "react-toastify";
 const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
   const initialEducationalBackground =
     userDetails.education.educationalBackground.length > 0
@@ -8,6 +9,7 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
       : [
           {
             institutionName: "",
+            degree:"",
             majorFieldOfStudy: "",
             graduationYear: "",
             grade: "",
@@ -44,6 +46,7 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
       ...educationalBackground,
       {
         institutionName: "",
+        degree:"",
         majorFieldOfStudy: "",
         graduationYear: "",
         grade: "",
@@ -66,10 +69,20 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
     }));
     // Proceed to the next step
   };
+  const removeEducationfield = (index)=>{
+    if(educationalBackground.length === 1  ){
+      toast.error("Please fill atleast one")
+
+    }
+else{
+  const updatedEducationalBackground = educationalBackground.filter((field,idx)=>idx!==index);
+  setEducationalBackground(updatedEducationalBackground)
+}
+  }
 
   return (
-    <div className="flex flex-col text-slate-700 gap-5">
-      <h2 className='className="self-center text-4xl '>
+    <div className="flex flex-col text-slate-700 gap-5 dark:text-slate-300">
+      <h2 className='className="self-center text-4xl dark:text-slate-300 '>
         Step 3: Educational Background
       </h2>
       <form
@@ -81,13 +94,14 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
         }}
       >
         {educationalBackground.map((education, index) => (
-          <div className=" flex flex-col text-slate-700 gap-5" key={index}>
+          <div className=" flex relative flex-col text-slate-700 gap-5 dark:text-slate-300" key={index}>
             <h3 className="text-2xl">Employment {index + 1}:</h3>
+          <div className="ml-3 flex flex-col text-slate-700 gap-5 dark:text-slate-300">
 
-            <label className="text-xl cursor-pointer  ">
+            <label className="text-xl cursor-pointer   ">
               Institution Name:
               <input
-                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
                 type="text"
                 name="institutionName"
                 value={education.institutionName}
@@ -97,9 +111,21 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
               />
             </label>
             <label className="text-xl cursor-pointer  ">
+              Degree:
+              <input
+                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
+                type="text"
+                name="degree"
+                value={education.degree}
+                onChange={(e) => handleInputChange(index, e)}
+                placeholder="Enter the name of degree"
+                required
+              />
+            </label>
+            <label className="text-xl cursor-pointer  ">
               Major Field of Study:
               <input
-                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
                 type="text"
                 name="majorFieldOfStudy"
                 value={education.majorFieldOfStudy}
@@ -113,7 +139,7 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
               <input
                 type="number"
                 name="graduationYear"
-                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
                 min="1900"
                 max="2024"
                 value={education.graduationYear}
@@ -124,7 +150,7 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
             <label className="text-xl cursor-pointer  ">
               Grade Obtained:
               <input
-                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
                 type="text"
                 name="grade"
                 value={education.grade}
@@ -132,6 +158,13 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
                 onChange={(e) => handleInputChange(index, e)}
               />
             </label>
+            </div>
+            <button className="absolute top-0 right-5 text-4xl hover:bg-[rgba(255,255,255,0.1)] p-1 rounded-full light:text-red-600 "
+          type="button"
+          onClick={()=>{removeEducationfield(index)}}
+          > <IoIosClose />
+            
+          </button>
           </div>
         ))}
         <button
@@ -141,11 +174,11 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
         >
           Add Another Education <span className="text-2xl text-red-600">+</span>
         </button>
-        <label className="text-xl cursor-pointer  ">
+        <label className="text-xl cursor-pointer dark:text-slate-300 ">
           Certifications (comma-separated):
           <br />
           <input
-            className="cursor-pointer mt-3  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+            className="cursor-pointer border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
             type="text"
             name="certifications"
             placeholder="Enter certifications"
@@ -153,11 +186,11 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
             onChange={handleCertificationsAndCourseChange}
           />
         </label>
-        <label className="text-xl cursor-pointer  ">
+        <label className="text-xl cursor-pointer dark:text-slate-300 ">
           Professional Development Courses (comma-separated):
           <br />
           <input
-            className="cursor-pointer mt-3  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+            className="cursor-pointer border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
             type="text"
             name="professionalDevelopmentCourses"
             placeholder="Enter professional development courses"
@@ -167,7 +200,7 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
         </label>
         <div className="flex self-end gap-5">
           <button
-            className="self-end bg-yellow-300 px-3 py-2 text-xl"
+            className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800" 
             type="button"
             onClick={(e) => {
               e.preventDefault();
@@ -178,7 +211,7 @@ const J3 = ({ onNext, userDetails, onPrev, setUserDetails }) => {
             &lt;-Prev
           </button>
           <button
-            className="self-end bg-yellow-300 px-3 py-2 text-xl"
+            className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800"
             type="submit"
           >
             Next-&gt;

@@ -24,6 +24,7 @@ router.post('/api/sign-up', checkSchema(signUpSchema), async (request, response)
   
   try {
     const newUser = new User(data);
+    console.log(newUser);
     const savedUser = await newUser.save();
 
     request.login(savedUser, async (err) => {

@@ -3,7 +3,8 @@ import {createContext , useEffect,useState} from "react";
 export const AppContext = createContext();
 export default function AppContextProvider({children}){
   const [userData,setUserData] = useState()
-  const[theme,setTheme] = useState("light");
+
+  const[theme,setTheme] = useState("dark");
   const toggleThemeChange = ()=>{
     setTheme(theme === "light" ? "dark" : "light");
   }

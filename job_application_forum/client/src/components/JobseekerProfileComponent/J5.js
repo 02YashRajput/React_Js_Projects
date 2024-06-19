@@ -29,7 +29,7 @@ const J5 = ({ onNext,onPrev,userDetails, setUserDetails }) => {
 
   return (
     <form
-    className="p-4 flex flex-col text-slate-700 gap-5"
+    className="p-4 flex flex-col text-slate-700 gap-5 dark:text-slate-300"
     
     onSubmit={(e)=>{
       e.preventDefault();
@@ -41,7 +41,7 @@ const J5 = ({ onNext,onPrev,userDetails, setUserDetails }) => {
           Portfolio or Work Samples:
           <input
             type="text"
-            className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+            className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900  bg-transparent dark:border-slate-400 mt-3"
 
             name="portfolioOrWorkSamples"
             value={additionalInfo.portfolioOrWorkSamples}
@@ -53,7 +53,7 @@ const J5 = ({ onNext,onPrev,userDetails, setUserDetails }) => {
           <input
 
             type="text"
-            className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+            className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
 
             name='languages'
             value={additionalInfo.languages}
@@ -63,7 +63,7 @@ const J5 = ({ onNext,onPrev,userDetails, setUserDetails }) => {
         <label className="text-xl cursor-pointer  ">
           Additional Comments:
           <input
-                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+                className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
             type='text'
             name="additionalComments"
             value={additionalInfo.additionalComments}
@@ -72,7 +72,7 @@ const J5 = ({ onNext,onPrev,userDetails, setUserDetails }) => {
         </label>
         <div className="flex self-end gap-5">
           <button
-            className="self-end bg-yellow-300 px-3 py-2 text-xl"
+            className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800"
             type="button"
             onClick={(e) => {
               e.preventDefault();
@@ -83,7 +83,7 @@ const J5 = ({ onNext,onPrev,userDetails, setUserDetails }) => {
             &lt;-Prev
           </button>
           <button
-            className="self-end bg-yellow-300 px-3 py-2 text-xl"
+            className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800"
             type="submit"
           >
             Submit

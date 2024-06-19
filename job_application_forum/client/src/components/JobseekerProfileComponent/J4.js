@@ -82,7 +82,7 @@ const J4 = ({ onNext,onPrev,userDetails ,setUserDetails }) => {
 
    
     <form
-    className="p-4 flex flex-col text-slate-700 gap-5 max-w-[50%]"
+    className="p-4 flex flex-col text-slate-700 gap-5 max-w-[50%] dark:text-slate-300"
 
      onSubmit={(e)=>{
       e.preventDefault();
@@ -96,10 +96,10 @@ const J4 = ({ onNext,onPrev,userDetails ,setUserDetails }) => {
       }
     }}>
       <h2 className="self-center text-4xl ">Step 4: Job Preferences</h2>
-        <label>
+        <label  className="text-xl cursor-pointer  ">
           Desired Job Titles (comma-separated):
           <input
-          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
 
           placeholder='Your desired jobs here..'
             type="text"
@@ -116,7 +116,7 @@ const J4 = ({ onNext,onPrev,userDetails ,setUserDetails }) => {
           {
             jobsArray.map(option=>{
               return <li key={option}>
-                <label className={`border border-blue-300 px-2 py-2 rounded-xl ${jobPreferences.industryPreferences.includes(option) ? 'bg-blue-400':'bg-blue-300'} `}>
+                <label className={`border border-blue-300 px-2 py-2 dark:text-slate-800 rounded-xl cursor-pointer ${jobPreferences.industryPreferences.includes(option) ? 'bg-blue-400':'bg-blue-300'} `}>
                   <input  
                   className='outline-none hidden'
                   type='checkbox'
@@ -137,29 +137,31 @@ const J4 = ({ onNext,onPrev,userDetails ,setUserDetails }) => {
         <label className="text-xl cursor-pointer  ">
           Employment Type:
           <input
-          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
 
             type="text"
             name="employmentType"
             value={jobPreferences.employmentType}
             onChange={handleInputChange}
+            placeholder='Regular,PartTime'
           />
         </label>
         <label className="text-xl cursor-pointer  ">
           Salary Expectations:
           <input
-          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
 
             type="text"
             name="salaryExpectations"
             value={jobPreferences.salaryExpectations}
             onChange={handleInputChange}
+            placeholder='100000-200000'
           />
         </label>
         <label className="text-xl cursor-pointer  ">
           Work Authorization:
           <input
-          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900"
+          className="cursor-pointer  border ml-3 rounded-md outline-none py-1 px-2 border-slate-900 bg-transparent dark:border-slate-400 mt-3"
 
             type="text"
             name="workAuthorization"
@@ -169,7 +171,7 @@ const J4 = ({ onNext,onPrev,userDetails ,setUserDetails }) => {
         </label>
         <div className="flex self-end gap-5">
           <button
-            className="self-end bg-yellow-300 px-3 py-2 text-xl"
+            className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800"
             type="button"
             onClick={(e) => {
               e.preventDefault();
@@ -180,7 +182,7 @@ const J4 = ({ onNext,onPrev,userDetails ,setUserDetails }) => {
             &lt;-Prev
           </button>
           <button
-            className="self-end bg-yellow-300 px-3 py-2 text-xl"
+            className="self-end bg-yellow-300 px-3 py-2 text-xl dark:text-slate-800"
             type="submit"
           >
             Next-&gt;
