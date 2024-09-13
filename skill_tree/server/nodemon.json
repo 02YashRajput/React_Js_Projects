@@ -1,0 +1,6 @@
+{
+  "watch": ["dist"],
+  "ext": "js",
+  "ignore": ["dist/**/*.d.ts"],
+  "exec": "node --experimental-modules dist/index.js"
+}
