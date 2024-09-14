@@ -10,6 +10,8 @@ import "./strategy/local_strategy_login.js";
 import dotenv from "dotenv";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { Course } from "./mongoose/courses.js";
+import { SkillNode } from "./mongoose/courses.js";
 
 dotenv.config();
 
@@ -20,6 +22,10 @@ const dbUrl: string = process.env.DB_URL as string;
 const sessionSecret: string = process.env.SESSION_SECRET || "defaultSecret"; // Use env variable for secret
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 
 mongoose
   .connect(dbUrl)
@@ -57,6 +63,9 @@ app.use(express.static(path.join(__dirname, "../public"))); // Ensure the path i
 app.use(allRoutes);
 
 app.use('/images', express.static(path.join(__dirname, '../src/utils/images')));
+
+
+
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

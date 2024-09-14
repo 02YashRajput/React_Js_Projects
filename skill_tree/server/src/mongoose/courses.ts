@@ -1,59 +1,69 @@
-import mongoose,{Schema} from "mongoose"; 
+import mongoose, { Document, Schema } from 'mongoose';
+import { Counter } from './counter.js';
 
-import { Counter } from "./counter.js";
+// Define the interface for SkillNode
+export interface ISkillNode extends Document {
+  name: string;
+  children: mongoose.Types.ObjectId[];
+}
 
-const skillNodeSchema = new Schema({
-  name:{
-    type:Schema.Types.String,
-    required:true,
+// Define the interface for Course
+export interface ICourse extends Document {
+  courseId: number;
+  name: string;
+  root: mongoose.Types.ObjectId;
+  description: any; // Consider using a more specific type if possible
+}
 
+// Define the schema for SkillNode
+const skillNodeSchema = new Schema<ISkillNode>({
+  name: {
+    type: Schema.Types.String,
+    required: true,
   },
-  
   children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SkillNode' }]
 });
 
-const courseSchema = new Schema({
-  courseId:{
-    type:Schema.Types.Number,
-    unique:true,
+// Define the schema for Course
+const courseSchema = new Schema<ICourse>({
+  courseId: {
+    type: Schema.Types.Number,
+    unique: true,
   },
-  name:{
-    type:Schema.Types.String,
-    required:true,
+  name: {
+    type: Schema.Types.String,
+    required: true,
   },
-  root:{
+  root: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'SkillNode'
   },
-  description:{
+  description: {
     type: Schema.Types.Mixed,
-    required:true
+    required: true
   }
-})
+});
 
+// Define pre-save hook for Course schema
+courseSchema.pre('save', async function (next) {
+  const course = this as ICourse;
 
-courseSchema.pre('save',async function (next) {
-  const course = this;
-
-  // If courseId is already set, skip
   if (!course.isNew) {
     return next();
   }
   try {
     const counter = await Counter.findOneAndUpdate(
-      {},
-      { $inc: { seq: 1 } }, // Increment the seq field by 1
-      { new: true, upsert: true } // Create if doesn't exist
+      { id: 'courseId' },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
     );
-    course.courseId = counter.seq; // Set the courseId based on counter
+    course.courseId = counter.seq;
     next();
-  } catch (error:any) {
+  } catch (error: any) {
     next(error);
   }
-  
-})
+});
 
-
-export const SkillNode = mongoose.model('SkillNode', skillNodeSchema);
-export const Course = mongoose.model('Course',courseSchema);
-
+// Create and export models
+export const SkillNode = mongoose.model<ISkillNode>('SkillNode', skillNodeSchema);
+export const Course = mongoose.model<ICourse>('Course', courseSchema);

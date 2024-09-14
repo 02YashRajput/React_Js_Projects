@@ -12,6 +12,9 @@ declare global {
       email:String,
       password: String,
       id?: ObjectId; 
+      picture?: String;
+      provider:String;
+      userid?:Number;
     }
   }
 }

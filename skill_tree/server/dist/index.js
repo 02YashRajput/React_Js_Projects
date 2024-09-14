@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -15,6 +16,10 @@ const __dirname = path.dirname(__filename);
 const dbUrl = process.env.DB_URL;
 const sessionSecret = process.env.SESSION_SECRET || "defaultSecret"; // Use env variable for secret
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 mongoose
     .connect(dbUrl)
     .then(() => {

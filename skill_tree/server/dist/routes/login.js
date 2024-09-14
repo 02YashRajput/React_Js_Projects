@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { Router } from "express";
 import passport from "passport";
-import "..//strategy/local_strategy_login.js";
+import "../strategy/local_strategy_login.js";
 import { checkSchema, validationResult } from "express-validator";
 import { loginSchema } from "../utils/validationSchema.js";
 /**
@@ -29,9 +29,9 @@ const router = Router();
  *
  * @example
  * curl -X POST \
-  http://localhost:3000/api/login \
-  -H 'Content-Type: application/json' \
-  -d '{"username": "john", "password": "password"}'
+ *  http://localhost:3000/api/login \
+ *  -H 'Content-Type: application/json' \
+ *  -d '{"username": "john", "password": "password"}'
  */
 router.post("/api/login", 
 /**
@@ -44,7 +44,7 @@ router.post("/api/login",
 checkSchema(loginSchema), (req, res, next) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({ msg: 'Error in validation' });
+        return res.status(400).json({ success: false, errors: result.array() });
     }
     next();
 }, 
@@ -54,7 +54,21 @@ checkSchema(loginSchema), (req, res, next) => {
  * @param {Request} req - The request object
  * @param {Response} res - The response object
  */
-passport.authenticate("local"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).send({ msg: "User logged in Successfully" });
+passport.authenticate("local", { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.user) {
+        if (req.user.provider !== "local") {
+            return res.status(400).json({ success: false, msg: "Cannot log in using this method. Please use the correct provider." });
+        }
+        // Proceed with login if provider is 'local'
+        req.login(req.user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            return res.status(200).json({ success: true, msg: "User Logged in Successfully" });
+        });
+    }
+    else {
+        return res.status(401).json({ success: false, msg: "Authentication failed" });
+    }
 }));
 export default router;
