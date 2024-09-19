@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Course } from "../mongoose/courses.js"; // Import the Course model for fetching course data
-import { MyCourses } from "../mongoose/user.js"; // Import the MyCourses model to track user-specific course data
+import { MyCourses } from "../mongoose/my-course.js"; // Import the MyCourses model to track user-specific course data
 import { fetchCourse } from "../utils/fetchNodes.js"; // Import function to fetch additional course details
 import { getSkillNodesWithState } from "../utils/populatenodes.js"; // Import function to get skill nodes with their current state
 import { isPositiveInteger } from "../utils/helpers.js"; // Import helper function to validate positive integers
