@@ -40,7 +40,7 @@ router.post('/api/sign-up', checkSchema(signUpSchema), async (req: Request, res:
   const data = matchedData(req);
   data.password = hashPassword(data.password);
   data.provider = "local";
-
+  data.visited = false;
   try {
     /**
      * Check if a user with the same email already exists.
