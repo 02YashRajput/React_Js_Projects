@@ -75,6 +75,7 @@ router.post("/api/auth/google", async (req: Request, res: Response) => {
           userName: name,
           picture: picture,
           provider: "google", // Indicate that this user is using Google authentication
+          verified:true,
         });
 
         const savedUser = await newUser.save();
