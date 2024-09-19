@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { MyCourses } from "../mongoose/user.js"; // Adjust the path if necessary
+import { MyCourses } from "../mongoose/my-course.js"; // Adjust the path if necessary
 import { Course } from "../mongoose/courses.js";
 
 const router = Router();
