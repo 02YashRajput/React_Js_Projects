@@ -3,7 +3,7 @@ import { Users } from '../mongoose/user.js';
 import { validationResult, checkSchema, matchedData } from 'express-validator';
 import { signUpSchema } from '../utils/validationSchema.js';
 import { hashPassword } from '../utils/helpers.js';
-import { MyCourses } from '../mongoose/user.js';
+
 
 /**
  * Router for handling user sign-up requests.
