@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import { Counter } from "./counter.js";
 
 interface IUser extends Document {
@@ -8,6 +8,7 @@ interface IUser extends Document {
   password: string;
   provider: "local" | "google";
   picture: string;
+  verified: boolean;
 }
 
 const userSchema = new Schema<IUser>({
@@ -37,52 +38,12 @@ const userSchema = new Schema<IUser>({
     type: String,
     default: "",
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-interface IMyCourses {
-  userId: ObjectId;
-  courseId: number;
-  progressRate: number;
-  nodes: {
-    skillNodeId: ObjectId;
-    state: "Not Started" | "In Progress" | "Completed" | "Stopped";
-  }[];
-}
-
-const myCoursesSchema = new Schema<IMyCourses>({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
-    required: true,
-    unique: true,
-  },
-
-  courseId: {
-    type: mongoose.Schema.Types.Number,
-    required: true,
-  },
-  progressRate: {
-    type: mongoose.Schema.Types.Number,
-    default: 0,
-    min: 0,
-    max: 100,
-    required: true,
-  },
-  nodes: [
-    {
-      skillNodeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "SkillNode",
-        required: true,
-      },
-      state: {
-        type: String,
-        enum: ["Not Started", "In Progress", "Completed", "Stopped"],
-        default: "Not Started",
-      },
-    },
-  ],
-});
 userSchema.pre("save", async function (next) {
   const user = this;
 
@@ -103,19 +64,14 @@ userSchema.pre("save", async function (next) {
     if (counter) {
       user.userId = counter.seq; // Set the userId based on counter
     } else {
-      // Handle case where counter document wasn't found or created
       throw new Error("Counter document not found or created.");
     }
 
     next(); // Proceed to the save operation
-  } catch (err: any) {
+  } catch (err) {
     console.error("Error in pre-save hook:", err);
     next(err); // Pass the error to the save callback
   }
 });
 
-export const Users = mongoose.model<IUser>("Users", userSchema);
-export const MyCourses = mongoose.model<IMyCourses>(
-  "MyCourses",
-  myCoursesSchema
-);
+export const User = mongoose.model<IUser>("User", userSchema);
