@@ -57,7 +57,10 @@ checkSchema(loginSchema), (req, res, next) => {
 passport.authenticate("local", { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.user) {
         if (req.user.provider !== "local") {
-            return res.status(400).json({ success: false, msg: "Cannot log in using this method. Please use the correct provider." });
+            return res.status(401).json({ success: false, msg: "Cannot log in using this method. Please use the correct provider." });
+        }
+        if (req.user.verified === false) {
+            return res.status(403).json({ success: false, msg: "User not verified" });
         }
         // Proceed with login if provider is 'local'
         req.login(req.user, (err) => {

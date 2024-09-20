@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Router } from 'express';
-import { Users } from '../mongoose/user.js';
+import { User } from '../mongoose/user.js';
 import { validationResult, checkSchema, matchedData } from 'express-validator';
 import { signUpSchema } from '../utils/validationSchema.js';
 import { hashPassword } from '../utils/helpers.js';
+import { sendVerifcationEmail } from "../utils/sendEmail.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 /**
  * Router for handling user sign-up requests.
  */
@@ -45,11 +49,12 @@ router.post('/api/sign-up', checkSchema(signUpSchema), (req, res) => __awaiter(v
     const data = matchedData(req);
     data.password = hashPassword(data.password);
     data.provider = "local";
+    data.visited = false;
     try {
         /**
          * Check if a user with the same email already exists.
          */
-        const existingUser = yield Users.findOne({ email: data.email });
+        const existingUser = yield User.findOne({ email: data.email });
         if (existingUser) {
             /**
              * If a user with the same email exists, return a 400 error.
@@ -59,18 +64,15 @@ router.post('/api/sign-up', checkSchema(signUpSchema), (req, res) => __awaiter(v
         /**
          * Create a new user with the validated data.
          */
-        const newUser = new Users(data);
+        const newUser = new User(data);
         const savedUser = yield newUser.save();
         /**
          * Log the user in using the req.login method.
          */
-        req.login(savedUser, (err) => {
-            if (err) {
-                console.log(err);
-                return res.status(400).json({ success: false, msg: 'Error during login' });
-            }
-            return res.status(201).json({ success: true, msg: 'User created and logged in successfully' });
-        });
+        const jwt_secret = process.env.JWT_SECRET;
+        const token = jwt.sign({ userId: savedUser._id }, jwt_secret, { expiresIn: '1d' });
+        sendVerifcationEmail(savedUser.email, token);
+        res.status(201).send({ success: true, msg: "User Created Successfully" });
     }
     catch (err) {
         /**

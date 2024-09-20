@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
 import express from "express";
-import { Users } from "../mongoose/user.js";
+import { User } from "../mongoose/user.js";
 import { comparePassword } from "../utils/helpers.js";
 import { ObjectId } from "mongoose";
 
@@ -15,6 +15,7 @@ declare global {
       picture?: String;
       provider:String;
       userid?:Number;
+      verified:Boolean
     }
   }
 }
@@ -24,7 +25,7 @@ passport.serializeUser((user,done)=>{
 
 passport.deserializeUser(async(id,done)=>{
   try{
-    const findUser = await Users.findById(id);
+    const findUser = await User.findById(id);
     if (!findUser) {
       throw new Error("User not found");
     }
@@ -42,7 +43,7 @@ export default passport.use(
       usernameField: "email",passwordField:"password",
     },async(email,password,done)=>{
       try{
-        const findUser = await Users.findOne({email});
+        const findUser = await User.findOne({email});
         if(!findUser){
           throw new Error("User not Found");
         }

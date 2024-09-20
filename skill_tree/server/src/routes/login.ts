@@ -40,6 +40,7 @@ router.post("/api/login",
     if (!result.isEmpty()) {
       return res.status(400).json({ success: false, errors: result.array() });
     }
+
     next();
   },
   /**
@@ -52,7 +53,11 @@ router.post("/api/login",
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {
       if (req.user.provider !== "local") {
-        return res.status(400).json({ success: false, msg: "Cannot log in using this method. Please use the correct provider." });
+        return res.status(401).json({ success: false, msg: "Cannot log in using this method. Please use the correct provider." });
+      }
+
+      if(req.user.verified === false){
+        return res.status(403).json({success:false,msg:"User not verified"})
       }
 
       // Proceed with login if provider is 'local'

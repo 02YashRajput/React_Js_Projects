@@ -36,39 +36,10 @@ const userSchema = new Schema({
         type: String,
         default: "",
     },
-});
-const myCoursesSchema = new Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
-        required: true,
-        unique: true,
+    verified: {
+        type: Boolean,
+        default: false,
     },
-    courseId: {
-        type: mongoose.Schema.Types.Number,
-        required: true,
-    },
-    progressRate: {
-        type: mongoose.Schema.Types.Number,
-        default: 0,
-        min: 0,
-        max: 100,
-        required: true,
-    },
-    nodes: [
-        {
-            skillNodeId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "SkillNode",
-                required: true,
-            },
-            state: {
-                type: String,
-                enum: ["Not Started", "In Progress", "Completed", "Stopped"],
-                default: "Not Started",
-            },
-        },
-    ],
 });
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -87,7 +58,6 @@ userSchema.pre("save", function (next) {
                 user.userId = counter.seq; // Set the userId based on counter
             }
             else {
-                // Handle case where counter document wasn't found or created
                 throw new Error("Counter document not found or created.");
             }
             next(); // Proceed to the save operation
@@ -98,5 +68,4 @@ userSchema.pre("save", function (next) {
         }
     });
 });
-export const Users = mongoose.model("Users", userSchema);
-export const MyCourses = mongoose.model("MyCourses", myCoursesSchema);
+export const User = mongoose.model("User", userSchema);

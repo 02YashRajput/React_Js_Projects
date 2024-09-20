@@ -1,3 +1,5 @@
+import {User} from "./user.js"
+import mongoose, { Schema, Document,ObjectId } from "mongoose";
 interface IMyCourses {
   userId: ObjectId;
   courseId: number;

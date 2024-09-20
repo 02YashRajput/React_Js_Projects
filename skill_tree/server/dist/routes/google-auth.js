@@ -11,7 +11,7 @@ import { Router } from "express";
 import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
 import { hashPassword } from "../utils/helpers.js";
-import { Users } from "../mongoose/user.js";
+import { User } from "../mongoose/user.js";
 import "../strategy/local_strategy_login.js";
 dotenv.config();
 const clientId = process.env.CLIENT_ID;
@@ -37,7 +37,7 @@ router.post("/api/auth/google", (req, res) => __awaiter(void 0, void 0, void 0, 
             const name = payload["name"];
             const picture = payload["picture"]; // Extract profile picture URL
             // Check if user already exists in the database
-            let user = yield Users.findOne({ email: email });
+            let user = yield User.findOne({ email: email });
             if (user) {
                 // Check if the existing user's provider is Google
                 if (user.provider !== "google") {
@@ -57,12 +57,13 @@ router.post("/api/auth/google", (req, res) => __awaiter(void 0, void 0, void 0, 
             }
             else {
                 // If user does not exist, create a new user with provider set to "google"
-                const newUser = new Users({
+                const newUser = new User({
                     password: hashPassword(googleId), // Use Google ID as password (hashed)
                     email: email,
                     userName: name,
                     picture: picture,
                     provider: "google", // Indicate that this user is using Google authentication
+                    verified: true,
                 });
                 const savedUser = yield newUser.save();
                 // Log in the newly created user

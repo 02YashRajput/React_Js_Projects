@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import passport from "passport";
 import { Strategy } from "passport-local";
-import { Users } from "../mongoose/user.js";
+import { User } from "../mongoose/user.js";
 import { comparePassword } from "../utils/helpers.js";
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 passport.deserializeUser((id, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const findUser = yield Users.findById(id);
+        const findUser = yield User.findById(id);
         if (!findUser) {
             throw new Error("User not found");
         }
@@ -30,7 +30,7 @@ export default passport.use(new Strategy({
     usernameField: "email", passwordField: "password",
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const findUser = yield Users.findOne({ email });
+        const findUser = yield User.findOne({ email });
         if (!findUser) {
             throw new Error("User not Found");
         }

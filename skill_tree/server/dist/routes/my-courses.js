@@ -8,8 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Router } from "express";
-import { MyCourses } from "../mongoose/user.js"; // Adjust the path if necessary
+import { MyCourses } from "../mongoose/my-course.js"; // Adjust the path if necessary
 import { Course } from "../mongoose/courses.js";
+import { fetchCoursewithState } from "../utils/fetchNodeswithState.js";
 const router = Router();
 router.get("/api/my-courses", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.user) {
@@ -40,7 +41,7 @@ router.get("/api/my-courses", (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(401).json({ success: false, msg: "Unauthorized" });
     }
 }));
-router.get('/api/my-course/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/api/my-courses/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.user) {
         try {
             const userId = req.user.id;
@@ -51,19 +52,9 @@ router.get('/api/my-course/:id', (req, res) => __awaiter(void 0, void 0, void 0,
             if (!myCourse) {
                 return res.status(404).json({ success: false, msg: "Course not found" });
             }
-            // Fetch course details
-            const courseDetail = yield Course.findOne({ courseId }).select("-_id -root -__v");
-            // find the nodes
-            // populate the nodes in mycourses
-            console.log(myCourse);
-            // Respond with the course details and progress rate
-            res.status(200).json({
-                success: true,
-                course: {
-                    courseDetails: courseDetail || {},
-                    progressRate: myCourse.progressRate,
-                }
-            });
+            // console.log(myCourse)
+            const tree = yield fetchCoursewithState(parseInt(courseId), myCourse.nodes);
+            res.status(200).send({ success: true, data: tree });
         }
         catch (err) {
             res.status(500).json({ success: false, msg: "Server error", error: err.message });

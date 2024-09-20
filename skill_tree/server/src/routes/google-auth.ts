@@ -3,9 +3,9 @@ import passport from "passport";
 import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
 import { hashPassword } from "../utils/helpers.js";
-import { Users } from "../mongoose/user.js";
+import { User } from "../mongoose/user.js";
 import "../strategy/local_strategy_login.js";
-import { MyCourses } from "../mongoose/user.js";
+import { MyCourses } from "../mongoose/my-course.js";
 
 dotenv.config();
 const clientId = process.env.CLIENT_ID ;
@@ -47,7 +47,7 @@ router.post("/api/auth/google", async (req: Request, res: Response) => {
       const picture = payload["picture"]; // Extract profile picture URL
 
       // Check if user already exists in the database
-      let user = await Users.findOne({ email: email });
+      let user = await User.findOne({ email: email });
 
       if (user) {
         // Check if the existing user's provider is Google
@@ -69,7 +69,7 @@ router.post("/api/auth/google", async (req: Request, res: Response) => {
         });
       } else {
         // If user does not exist, create a new user with provider set to "google"
-        const newUser = new Users({
+        const newUser = new User({
           password: hashPassword(googleId), // Use Google ID as password (hashed)
           email: email,
           userName: name,
