@@ -47,3 +47,27 @@ export const loginSchema = {
     },
   }, 
 }
+
+export const updateMyCourse = {
+  name: {
+    notEmpty: {
+      errorMessage: "Course name cannot be empty",
+    },
+    isString: {
+      errorMessage: "Course name must be a string!",
+    },
+  },
+  state: {
+    notEmpty: {
+      errorMessage: "Course state cannot be empty",
+    },
+    isString: {
+      errorMessage: "Course state must be a string!",
+    },
+    isIn: {
+      options: [["Not Started", "In Progress", "Completed", "Stopped"]],
+      errorMessage: "Course state must be one of: Not Started, In Progress, Completed, Stopped",
+    },
+  },
+
+}

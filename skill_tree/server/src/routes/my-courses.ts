@@ -1,7 +1,10 @@
 import { Router, Request, Response } from "express";
 import { MyCourses } from "../mongoose/my-course.js"; // Adjust the path if necessary
-import { Course } from "../mongoose/courses.js";
-import { fetchCoursewithState } from "../utils/fetchNodeswithState.js";
+import { Course, ISkillNode } from "../mongoose/courses.js";
+import { updateNodes, updateProgressRate } from "../utils/updateMyCourse.js";
+import { checkSchema,matchedData,validationResult } from "express-validator";
+import { updateMyCourse } from "../utils/validationSchema.js";
+
 const router = Router();
 
 router.get("/api/my-courses", async (req: Request, res: Response) => {
@@ -55,11 +58,9 @@ router.get('/api/my-courses/:id', async (req: Request, res: Response) => {
       }
 
 
-      // console.log(myCourse)
 
-      const tree = await fetchCoursewithState(parseInt(courseId),myCourse.nodes)
 
-      res.status(200).send({success:true,data:tree});
+      res.status(200).send({success:true,course:myCourse.nodes});
 
 
      
@@ -72,7 +73,75 @@ router.get('/api/my-courses/:id', async (req: Request, res: Response) => {
 });
 
 
+router.post("/api/my-courses/:id",checkSchema(updateMyCourse),async(req:Request,res:Response)=>{
+  if(req.user){
 
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+     
+      return res.status(400).json({ success: false, msg: 'Error in validation', err: result.array() });
+    }
+  
+   const  courseId = req.params.id;
+   const userId = req.user.id;
+   const data = matchedData(req);
+   try{
+
+     const myCourse = await MyCourses.findOne({userId:userId,courseId:parseInt(courseId)});
+     if(!myCourse){
+       return res.status(404).json({ success: false, msg: "Course not found" });
+      }
+      if(data.length<=0){
+        return res.status(404).json({ success: false, msg: "Data not found" });
+      }
+
+      
+      
+    const updatedNodes = updateNodes(myCourse.nodes,data.name,data.state);
+    if(data.state  === "Completed"){
+      const progressRate = updateProgressRate(myCourse.nodes)
+      await MyCourses.updateMany({ _id: myCourse._id }, { $set: { progressRate,nodes:updateNodes } });
+    }else{
+
+      await MyCourses.updateOne({ _id: myCourse._id }, { $set: { nodes: updatedNodes } });
+    }
+   const course =  myCourse.toObject()
+    delete course.nodes._id;
+
+      res.status(200).json({success:true,msg:"Updated" , data:course.nodes})
+    }catch(err:any){
+      res.status(500).json({ success: false, msg: "Server error", error: err.message });
+    }
+
+  }else{
+
+    res.status(401).json({ success: false, msg: "Unauthorized" });
+  }
+})
+
+router.post("/api/my-courses/delete-course/:id", async (req: Request, res: Response) => {
+  if (req.user) {
+    const courseId = req.params.id;
+    const userId = req.user.id;
+
+    try {
+      const myCourse = await MyCourses.deleteOne({ userId: userId, courseId: parseInt(courseId) });
+
+      if (myCourse.deletedCount === 0) {
+        return res.status(404).json({ success: false, msg: "Course not found" });
+      }
+
+      return res.status(200).json({ success: true, msg: "Course deleted successfully" });
+
+    } catch (err: any) {
+      console.error(err); // Log the error for debugging
+      return res.status(500).json({ success: false, msg: "Internal server error" });
+    }
+
+  } else {
+    return res.status(401).json({ success: false, msg: "Unauthorized" });
+  }
+});
 
 
 export default router;

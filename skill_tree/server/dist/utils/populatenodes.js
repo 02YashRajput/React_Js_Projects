@@ -12,36 +12,36 @@ import { Course, SkillNode } from '../mongoose/courses.js'; // Adjust the import
 export function getSkillNodesWithState(courseId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // Fetch the course by its ID
+            // Fetch the course by its ID and populate the root node
             const course = yield Course.findOne({ courseId }).populate('root').exec();
             if (!course) {
                 throw new Error(`Course with ID ${courseId} not found`);
             }
-            // Function to recursively get all skill nodes starting from the root
+            // Recursive function to build the skill node tree
             function getSkillNodes(nodeId) {
                 return __awaiter(this, void 0, void 0, function* () {
+                    // Find the node by its ID and populate its children
                     const node = yield SkillNode.findById(nodeId).populate('children').exec();
                     if (!node) {
                         throw new Error(`SkillNode with ID ${nodeId} not found`);
                     }
-                    // Get the children nodes
-                    const childrenNodes = yield Promise.all(node.children.map(child => getSkillNodes(child)));
-                    // Flatten the array of arrays
-                    return [node._id, ...childrenNodes.flat()];
+                    // Recursively get the children nodes and build their tree structure
+                    const childrenNodes = yield Promise.all(node.children.map(child => getSkillNodes(child._id)));
+                    // Return the current node with its name, status, and children
+                    return {
+                        name: node.name,
+                        state: 'Not Started',
+                        children: childrenNodes // This will be an array of the child nodes
+                    };
                 });
             }
-            // Get all skill nodes starting from the root node
-            const allSkillNodes = yield getSkillNodes(course.root);
-            // Create nodes array with default state "Not Started"
-            const nodes = allSkillNodes.map(skillNodeId => ({
-                skillNodeId,
-                state: 'Not Started'
-            }));
-            return nodes;
+            // Start building the skill tree from the root node
+            const skillTree = yield getSkillNodes(course.root);
+            return skillTree;
         }
         catch (error) {
             console.error('Error getting skill nodes:', error.message);
-            return [];
+            return null;
         }
     });
 }
