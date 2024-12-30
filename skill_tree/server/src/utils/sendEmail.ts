@@ -11,15 +11,16 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendVerifcationEmail = (email:string, token:string)=>{
+export const sendVerifcationEmail = async(email:string, token:string)=>{
 
  const url = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
 
-  transporter.sendMail({
+  const info = await transporter.sendMail({
     to :email,
     subject : "verify your email",
     html: `Please click <a href="${url}">here</a> to verify your email.`
   })
+  console.log('Email sent:', info.response);
 
 
 }

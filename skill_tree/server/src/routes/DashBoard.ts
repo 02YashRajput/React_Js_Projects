@@ -3,8 +3,10 @@ const router = Router();
 
 router.get("/api/", async (req:Request, res:Response) => {
   if(req.user){
-    res.json({ success: true, msg: "User Found" });
+    res.status(200).json({ success: true,userType : "User", msg: "User Found",data:null });
   }else{
-    res.json({ success: false, msg: "User Not Found" });
+    res.status(200).json({ success: true,userType:"Visitor", msg: "User Not Found",data:null });
   }
 });
+
+export default router;

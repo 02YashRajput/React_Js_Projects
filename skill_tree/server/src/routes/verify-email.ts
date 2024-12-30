@@ -36,15 +36,15 @@ router.get("/api/verify-email", async (req: Request, res: Response) => {
     req.login(user, (err: Error | null) => {
       if (err) {
         console.log(err);
-        return res.status(400).json({ success: false, msg: 'Error during login' });
+        return res.status(400).json({ success: false, msg: 'Error during login',data:null });
       }
 
       // Only send a success response after successful login
-      res.status(200).json({ success: true, msg: "Email successfully verified and user logged in" });
+      res.status(200).json({ success: true, msg: "Email successfully verified and user logged in",data:null });
     });
 
   } catch (err: any) {
-    res.status(400).json({ success: false, msg: "Invalid or expired token", error: err.message });
+    res.status(400).json({ success: false, msg: "Invalid or expired token", error: err.message,data:null });
   }
 });
 

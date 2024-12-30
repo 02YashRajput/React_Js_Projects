@@ -22,7 +22,7 @@ router.get("/api/my-courses", (req, res) => __awaiter(void 0, void 0, void 0, fu
             const myCourses = yield MyCourses.find({ userId });
             // If no courses are found, respond with 404  
             if (!myCourses || myCourses.length === 0) {
-                return res.status(404).json({ success: false, msg: "No courses found" });
+                return res.status(404).json({ success: false, msg: "No courses found", data: null });
             }
             // Fetch course details and combine with progress rates
             const coursesWithDetails = yield Promise.all(myCourses.map((course) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,14 +33,14 @@ router.get("/api/my-courses", (req, res) => __awaiter(void 0, void 0, void 0, fu
                 };
             })));
             // Send the extracted courses with details and progress rates
-            res.status(200).json({ success: true, courses: coursesWithDetails });
+            res.status(200).json({ success: true, msg: "Courses retrieved successfully", data: coursesWithDetails });
         }
         catch (err) {
-            res.status(500).json({ success: false, msg: "Server error", error: err.message });
+            res.status(500).json({ success: false, msg: "Server error", data: null, error: err.message });
         }
     }
     else {
-        res.status(401).json({ success: false, msg: "Unauthorized" });
+        res.status(401).json({ success: false, msg: "Unauthorized", data: null });
     }
 }));
 router.get('/api/my-courses/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,23 +52,23 @@ router.get('/api/my-courses/:id', (req, res) => __awaiter(void 0, void 0, void 0
             const myCourse = yield MyCourses.findOne({ userId, courseId });
             // If no course is found, respond with 404
             if (!myCourse) {
-                return res.status(404).json({ success: false, msg: "Course not found" });
+                return res.status(404).json({ success: false, msg: "Course not found", data: null });
             }
-            res.status(200).send({ success: true, course: myCourse.nodes });
+            res.status(200).json({ success: true, msg: "Course retrieved successfully", data: myCourse.nodes });
         }
         catch (err) {
-            res.status(500).json({ success: false, msg: "Server error", error: err.message });
+            res.status(500).json({ success: false, msg: "Server error", data: null, error: err.message });
         }
     }
     else {
-        res.status(401).json({ success: false, msg: "Unauthorized" });
+        res.status(401).json({ success: false, msg: "Unauthorized", data: null });
     }
 }));
 router.post("/api/my-courses/:id", checkSchema(updateMyCourse), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.user) {
         const result = validationResult(req);
         if (!result.isEmpty()) {
-            return res.status(400).json({ success: false, msg: 'Error in validation', err: result.array() });
+            return res.status(400).json({ success: false, msg: 'Error in validation', data: null, err: result.array() });
         }
         const courseId = req.params.id;
         const userId = req.user.id;
@@ -76,15 +76,15 @@ router.post("/api/my-courses/:id", checkSchema(updateMyCourse), (req, res) => __
         try {
             const myCourse = yield MyCourses.findOne({ userId: userId, courseId: parseInt(courseId) });
             if (!myCourse) {
-                return res.status(404).json({ success: false, msg: "Course not found" });
+                return res.status(404).json({ success: false, msg: "Course not found", data: null });
             }
             if (data.length <= 0) {
-                return res.status(404).json({ success: false, msg: "Data not found" });
+                return res.status(404).json({ success: false, msg: "Data not found", data: null });
             }
             const updatedNodes = updateNodes(myCourse.nodes, data.name, data.state);
             if (data.state === "Completed") {
                 const progressRate = updateProgressRate(myCourse.nodes);
-                yield MyCourses.updateMany({ _id: myCourse._id }, { $set: { progressRate, nodes: updateNodes } });
+                yield MyCourses.updateMany({ _id: myCourse._id }, { $set: { progressRate, nodes: updatedNodes } });
             }
             else {
                 yield MyCourses.updateOne({ _id: myCourse._id }, { $set: { nodes: updatedNodes } });
@@ -94,11 +94,11 @@ router.post("/api/my-courses/:id", checkSchema(updateMyCourse), (req, res) => __
             res.status(200).json({ success: true, msg: "Updated", data: course.nodes });
         }
         catch (err) {
-            res.status(500).json({ success: false, msg: "Server error", error: err.message });
+            res.status(500).json({ success: false, msg: "Server error", data: null, error: err.message });
         }
     }
     else {
-        res.status(401).json({ success: false, msg: "Unauthorized" });
+        res.status(401).json({ success: false, msg: "Unauthorized", data: null });
     }
 }));
 router.post("/api/my-courses/delete-course/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -108,17 +108,17 @@ router.post("/api/my-courses/delete-course/:id", (req, res) => __awaiter(void 0,
         try {
             const myCourse = yield MyCourses.deleteOne({ userId: userId, courseId: parseInt(courseId) });
             if (myCourse.deletedCount === 0) {
-                return res.status(404).json({ success: false, msg: "Course not found" });
+                return res.status(404).json({ success: false, msg: "Course not found", data: null });
             }
-            return res.status(200).json({ success: true, msg: "Course deleted successfully" });
+            return res.status(200).json({ success: true, msg: "Course deleted successfully", data: null });
         }
         catch (err) {
             console.error(err); // Log the error for debugging
-            return res.status(500).json({ success: false, msg: "Internal server error" });
+            return res.status(500).json({ success: false, msg: "Internal server error", data: null });
         }
     }
     else {
-        return res.status(401).json({ success: false, msg: "Unauthorized" });
+        return res.status(401).json({ success: false, msg: "Unauthorized", data: null });
     }
 }));
 export default router;

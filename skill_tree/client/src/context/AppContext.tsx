@@ -4,6 +4,8 @@ import axios from 'axios';
 
 // Define types for context values
 interface AppContextType {
+  userType:string | null;
+  setUserType :  React.Dispatch<React.SetStateAction<string | null>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   pageData: Record<string, any>; // Adjust based on actual data shape
@@ -22,12 +24,15 @@ interface AppContextProviderProps {
 }
 
 const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
+  const [userType,setUserType] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false);
   const [theme, setTheme] = useState<string>("light");
+  const [pageData, setPageData] = useState<Record<string, any>>({});
+  const navigate = useNavigate();
 
-  const toggleThemeChange = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+  const toggleThemeChange = useCallback(() => {
+    setTheme(prevTheme => (prevTheme === "light" ? "dark" : "light"));
+  }, []);
 
   useEffect(() => {
     const checkTheme = () => {
@@ -35,42 +40,32 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
       setTheme(prefersDarkMode ? "dark" : "light");
     };
 
-    // Initial check
     checkTheme();
-
-    // Add event listener to detect theme changes
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     mediaQuery.addEventListener("change", checkTheme);
-
-    // Cleanup event listener on component unmount
+    
     return () => {
       mediaQuery.removeEventListener("change", checkTheme);
     };
   }, []);
 
   useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
-  const [pageData, setPageData] = useState<Record<string, any>>({});
-  const navigate = useNavigate();
-
-  // Use useCallback to memoize fetchData function
   const fetchData = useCallback(async (url: string) => {
-    setLoading(true); // Start loading
-
+    setLoading(true);
     try {
       const response = await axios.get(`/api${url}`);
+      
       setPageData(response.data);
+      
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
         navigate("/login");
       } else {
         console.error('Fetching error:', error);
+        // Optionally, set an error state here
       }
     } finally {
       setLoading(false);
@@ -78,6 +73,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
   }, [navigate]);
 
   const value: AppContextType = {
+    setUserType,
+    userType,
     loading,
     setLoading,
     pageData,
@@ -85,7 +82,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     fetchData,
     theme,
     setTheme,
-    toggleThemeChange
+    toggleThemeChange,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

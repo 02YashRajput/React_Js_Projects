@@ -72,6 +72,7 @@ router.post('/api/sign-up', checkSchema(signUpSchema), (req, res) => __awaiter(v
         const jwt_secret = process.env.JWT_SECRET;
         const token = jwt.sign({ userId: savedUser._id }, jwt_secret, { expiresIn: '1d' });
         sendVerifcationEmail(savedUser.email, token);
+        console.log(token);
         res.status(201).send({ success: true, msg: "User Created Successfully" });
     }
     catch (err) {
